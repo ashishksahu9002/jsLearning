@@ -5,6 +5,8 @@
 
   They both can be used in a single program
 
+  The rest parameter must be last in the parameter list, otherwise JS can’t parse arguments correctly.
+
 */
 
 // Spread Examples :-
@@ -50,3 +52,29 @@ function greet(greeting, ...names) {
 const people = ["Ashish", "Rahul", "Neha"];
 greet("Hello", ...people); // Spread
 // "Hello Ashish, Rahul, Neha"
+
+/*
+
+  Why is this invalid?
+  function f(...args, last) { } // ❌
+  Rest parameters rule
+    - The rest parameter (...args) must always be the last formal parameter in a function definition.
+    - Why?
+      - Because rest means: “collect all remaining arguments into an array”.
+      - So if you write:
+        - function f(a, ...args, last) {}
+        - JavaScript wouldn’t know: 
+          - Should last be part of args?
+          - Or should it capture something after the “rest”?
+          - That’s ambiguous — so the syntax is not allowed.
+    
+    Put the rest parameter at the end
+    
+*/
+
+// Correct way of using rest in parameters
+function f(a, b, ...rest) {
+  console.log(a, b, rest);
+}
+f(1, 2, 3, 4, 5);
+// a=1, b=2, rest=[3,4,5]
