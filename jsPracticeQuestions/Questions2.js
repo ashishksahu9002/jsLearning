@@ -1,3 +1,5 @@
+// Frequency of elements in array
+
 const arr = ["apple", "banana", "apple", "orange", "banana", "apple"];
 
 // Expected Output: { apple: 3, banana: 2, orange: 1 }

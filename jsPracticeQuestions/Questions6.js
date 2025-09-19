@@ -1,3 +1,5 @@
+// Stack balance brackets
+
 console.log(isBalanced("()"));
 console.log(isBalanced("(())"));
 console.log(isBalanced("(()"));

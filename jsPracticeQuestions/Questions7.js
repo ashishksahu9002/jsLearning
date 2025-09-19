@@ -1,3 +1,5 @@
+// Frequency Map
+
 firstUniqueChar("aabbccdeff");  // "d"
 firstUniqueChar("aabb");        // null
 
