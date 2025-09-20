@@ -192,3 +192,63 @@ console.log([null] == 0)        // true
 // Number("") → 0
 // 0 == 0 → true
 console.log([undefined] == 0)   // true (same as above)
+
+for (var i =0; i<5; i++) {
+  setTimeout(function () {
+    console.log('i : ',i)
+  },0)
+}
+/*
+i :  5
+i :  5
+i :  5
+i :  5
+i :  5
+
+  - var is function-scoped (or global-scoped).
+  - There is only one i variable shared across all iterations.
+  - The for loop increments i until it becomes 5.
+  - setTimeout is asynchronous: callbacks are placed in the task queue after the current call stack is cleared.
+  - By the time callbacks run, the loop is already finished and i = 5.
+  - So each callback prints the same final value 5.
+*/
+
+for (let i =0; i<5; i++) {
+  setTimeout(function () {
+    console.log('i : ',i)
+  },0)
+}
+/*
+i :  0
+i :  1
+i :  2
+i :  3
+i :  4
+
+  - let is block-scoped.
+  - In a for loop, each iteration creates a new binding of i.
+  - Each setTimeout callback closes over its own iteration’s copy of i.
+  - So the logged value is the correct one for each iteration.
+*/
+
+/*
+  - Each callback in setTimeout forms a closure over the variable i.
+    - With var, they all share the same closure variable.
+    - With let, each iteration gets a new closure variable.
+*/
+
+// to fix var issue
+// 1. Use an IIFE (closure)
+for (var i = 0; i < 5; i++) {
+  (function(i) {
+    setTimeout(function () {
+      console.log("i :", i);
+    }, 0);
+  })(i);
+}
+// 2. Pass i as setTimeout argument
+for (var i = 0; i < 5; i++) {
+  setTimeout(function(i) {
+    console.log("i :", i);
+  }, 0, i);
+}
