@@ -10,6 +10,13 @@ const arr = [1, 2, 3, 4, 5, 6];
 const arr1 = new Array(5);
 const arr2 = new Array(1, 2, 3, 4);
 const arr3 = Array.from("abc123");
+/*
+  - Array.from(arrayLike, mapFn?, thisArg?)
+    - arrayLike → the source (must be iterable or array-like).
+    - mapFn (optional) → function to apply to each element (like .map).
+    - thisArg (optional) → value of this inside mapFn.
+*/
+
 const arr4 = Array.of(9, 1, 2, 3, 7, 4, 4, 5, 2, 11, 23);
 const arr5 = Array.of("dkcnldfn");
 
