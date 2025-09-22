@@ -1,4 +1,5 @@
 // My solving after understanding
+// Longest Unique Substring using sliding window and map
 function longestUniqueSubstring(str) {
   if (str.length === 0) {
     return str;
@@ -28,6 +29,7 @@ function longestUniqueSubstring(str) {
   return str.slice(bestStart, bestStart + bestLen)
 }
 
+// GPT --- Best way
 function longestUniqueSubstringGPT(s) {
   let start = 0;                 // window start
   let bestStart = 0;             // start index of best substring found
