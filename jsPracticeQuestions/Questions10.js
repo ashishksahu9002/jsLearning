@@ -1,5 +1,5 @@
 // Shortest Sub Array
-// expand + shrink sliding window pattern
+// expand + shrink sliding window pattern :- If all the values are non negative
 
 /*
   In My version code what mistake I did (Working fine):- 
@@ -49,16 +49,18 @@ function shortestSubarray1(arr, target) {
 
     // shrink while valid
     while (sum >= target) {
+      // console.log("sum : ", sum);
       bestLen = Math.min(bestLen, end - start + 1);
       sum -= arr[start];
       start++;
     }
   }
 
-  return bestLen === Infinity ? 0 : bestLen;
+  return bestLen === Infinity ? -1 : bestLen;
 }
 
-
-console.log(shortestSubarray([2, 3, 1, 2, 4, 3], 7)); // 2   (subarray [4,3])
-console.log(shortestSubarray([1, 4, 4], 4)); // 1   ([4])
-console.log(shortestSubarray([1, 1, 1, 1, 1, 1], 6)); // 0
+console.log(shortestSubarray1([2, 3, 1, 2, 4, 3], 7)); // 2   (subarray [4,3])
+console.log(shortestSubarray1([1, 4, 4], 4)); // 1   ([4])
+console.log(shortestSubarray1([1, 1, 1, 1, 1, 1], 6)); // 6
+console.log(shortestSubarray1([2,-1,2], 3)); // 3
+console.log(shortestSubarray1([84, -37, 32, 40, 95], 167)); // 3
