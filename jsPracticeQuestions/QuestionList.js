@@ -24,3 +24,10 @@ const arr1 = [1, 2, 3, 4];
 const arr2 = [3, 4, 5, 6];
 
 // Expected Output: [3, 4]   InterSection
+
+// 5.
+// Flaten Array
+
+const arr = [1, [2, [3, [4, 5]]]];
+
+// Expected Output: [1, 2, 3, 4, 5]
