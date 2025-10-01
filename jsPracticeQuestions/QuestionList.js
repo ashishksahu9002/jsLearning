@@ -13,7 +13,7 @@ const arr = ["apple", "banana", "apple", "orange", "banana", "apple"];
 // 3.
 // Remove duplicates
 
-const arr = [1, 2, 2, 3, 4, 4, 5];
+const arr3 = [1, 2, 2, 3, 4, 4, 5];
 
 // Expected Output: [1, 2, 3, 4, 5]
 
@@ -28,6 +28,15 @@ const arr2 = [3, 4, 5, 6];
 // 5.
 // Flaten Array
 
-const arr = [1, [2, [3, [4, 5]]]];
+const arr4 = [1, [2, [3, [4, 5]]]];
 
 // Expected Output: [1, 2, 3, 4, 5]
+
+// 6.
+// Stack balance brackets
+
+// console.log(isBalanced("()"));
+// console.log(isBalanced("(())"));
+// console.log(isBalanced("(()"));
+// console.log(isBalanced("())("));
+// console.log(isBalanced(")())("));
