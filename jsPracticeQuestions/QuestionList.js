@@ -9,3 +9,10 @@ const obj = { a: 1, b: 2, c: 3 };
 const arr = ["apple", "banana", "apple", "orange", "banana", "apple"];
 
 // Expected Output: { apple: 3, banana: 2, orange: 1 }
+
+// 3.
+// Remove duplicates
+
+const arr = [1, 2, 2, 3, 4, 4, 5];
+
+// Expected Output: [1, 2, 3, 4, 5]
