@@ -46,3 +46,10 @@ const arr4 = [1, [2, [3, [4, 5]]]];
 
 // firstUniqueChar("aabbccdeff");  // "d"
 // firstUniqueChar("aabb");        // null
+
+// 8.
+// Frequency Map - Anagram
+// console.log(isAnagram("listen", "silent"));  // true
+// console.log(isAnagram("hello", "world"));    // false
+// console.log(isAnagram("aabb", "bbaa"));      // true
+// console.log(isAnagram("aabb", "bba"));       // false
