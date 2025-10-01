@@ -53,3 +53,9 @@ const arr4 = [1, [2, [3, [4, 5]]]];
 // console.log(isAnagram("hello", "world"));    // false
 // console.log(isAnagram("aabb", "bbaa"));      // true
 // console.log(isAnagram("aabb", "bba"));       // false
+
+// 9. Longest Unique Sub String
+// console.log(longestUniqueSubstring("abcabcbb")); // "abc"
+// console.log(longestUniqueSubstring("bbbbb")); // "b"
+// console.log(longestUniqueSubstring("pwwkew")); // "wke"
+// console.log(longestUniqueSubstring("")); // ""
