@@ -59,3 +59,10 @@ const arr4 = [1, [2, [3, [4, 5]]]];
 // console.log(longestUniqueSubstring("bbbbb")); // "b"
 // console.log(longestUniqueSubstring("pwwkew")); // "wke"
 // console.log(longestUniqueSubstring("")); // ""
+
+// 10.
+// console.log(shortestSubarray1([2, 3, 1, 2, 4, 3], 7)); // 2   (subarray [4,3])
+// console.log(shortestSubarray1([1, 4, 4], 4)); // 1   ([4])
+// console.log(shortestSubarray1([1, 1, 1, 1, 1, 1], 6)); // 6
+// console.log(shortestSubarray1([2,-1,2], 3)); // 3
+// console.log(shortestSubarray1([84, -37, 32, 40, 95], 167)); // 3
