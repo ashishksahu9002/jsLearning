@@ -16,3 +16,5 @@ const arr = ["apple", "banana", "apple", "orange", "banana", "apple"];
 const arr = [1, 2, 2, 3, 4, 4, 5];
 
 // Expected Output: [1, 2, 3, 4, 5]
+
+// 4.
