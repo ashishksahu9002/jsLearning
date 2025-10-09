@@ -281,7 +281,7 @@ document.getElementById("btn").addEventListener("click", () => {
     - This technique is useful when --> 
       - You have a large number of child elements that need the same event handler.
       - Child elements are dynamically added or removed.
-      - How Does Event Delegation Work?
+    - How Does Event Delegation Work?
       - An event on a child element bubbles up to its parent.
       - You can attach a single event listener to the parent element.
       - Inside the event handler, you check which child element triggered the event using properties like event.target.
