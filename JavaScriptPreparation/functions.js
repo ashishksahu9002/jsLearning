@@ -34,7 +34,7 @@ function greet(name) {
     - A Function Expression is a function defined within an expression, often stored in a variable or passed as a value.
     - It gives you flexibility, encapsulation, and control — especially when you need to use functions dynamically, inline, or privately.
 */
-const greet = function(name) {
+const greet = function (name) {
   return `Hello, ${name}`;
 };
 // Assigned to a variable (can be anonymous or named).
@@ -43,11 +43,11 @@ const greet = function(name) {
 // ----- Types of Function Expressions -----
 //  1. Anonymous Function Expression
 //    - No name after function
-const sayHi = function() {
+const sayHi = function () {
   console.log("Hi!");
 };
 //    - Common for callbacks
-setTimeout(function() {
+setTimeout(function () {
   console.log("This runs later!");
 }, 1000);
 //  2. Named Function Expression
@@ -65,11 +65,11 @@ console.log(factorial(5)); // 120
   - Arrow Function :- 
     - An Arrow Function is a shorter syntax for writing function expressions.
 */
-// Instead of :- 
-const add = function(a, b) {
+// Instead of :-
+const add = function (a, b) {
   return a + b;
 };
-// you write :- 
+// you write :-
 const add = (a, b) => a + b;
 // Both do the same thing — but arrow functions are more concise and have different behavior with this.
 /*
@@ -86,8 +86,8 @@ const add = (a, b) => a + b;
       const greet = () => console.log("Hello!");
     - With parameters :- 
       const add = (a, b) => a + b;
-    - With one parameter (no parentheses needed) :- 
-      const square = x => x * x;
+      - With one parameter (no parentheses needed) :- 
+        const square = x => x * x;
     - With multiple statements (use {} and return) :- 
       const sum = (a, b) => {
         const result = a + b;
@@ -122,24 +122,24 @@ const add = (a, b) => a + b;
     - Returned from another function
 */
 // Assigned to a variable
-const greet = function() {
+const greet = function () {
   console.log("Hello there!");
 };
 greet(); // "Hello there!"
 // Passed as a callback
-setTimeout(function() {
+setTimeout(function () {
   console.log("Timer done!");
 }, 1000);
 // Returned from another function
 function outer() {
-  return function() {
+  return function () {
     console.log("Inner anonymous function");
   };
 }
 const inner = outer();
 inner(); // "Inner anonymous function"
 // Immediately Invoked Function Expression (IIFE)
-(function() {
+(function () {
   console.log("Runs instantly!");
 })();
 /*
@@ -161,8 +161,8 @@ inner(); // "Inner anonymous function"
   - IIFE :- 
     - An IIFE (Immediately Invoked Function Expression) is a function that runs immediately after it’s defined — without needing to be called later.
 */
-//  Basic Syntax :- 
-(function() {
+//  Basic Syntax :-
+(function () {
   console.log("This runs immediately!");
 })();
 /*
@@ -188,7 +188,7 @@ inner(); // "Inner anonymous function"
     - Encapsulating utilities
 */
 // Basic IIFE
-(function() {
+(function () {
   console.log("Hello from IIFE!");
 })();
 
@@ -251,7 +251,7 @@ async function fetchData() {
 const user2 = {
   greet() {
     console.log("Hello!");
-  }
+  },
 };
 user2.greet();
 // Shorthand syntax (no function keyword).
@@ -275,8 +275,12 @@ MathUtil.add(2, 3); // 5
 const user = {
   first: "Ashish",
   last: "Kumar",
-  get fullName() { return `${this.first} ${this.last}`; },
-  set fullName(name) { [this.first, this.last] = name.split(" "); }
+  get fullName() {
+    return `${this.first} ${this.last}`;
+  },
+  set fullName(name) {
+    [this.first, this.last] = name.split(" ");
+  },
 };
 // Used for computed or controlled properties.
 // --------------------------------------------------------------------------------------
@@ -318,7 +322,9 @@ greet(); // Hello, Guest
     - If no return, function returns undefined.
     - return ends function execution immediately.
 */
-function add(a, b) { return a + b; }
+function add(a, b) {
+  return a + b;
+}
 
 // --------------------------------------------------------------------------------------
 
@@ -339,12 +345,12 @@ function greet(name) {
 function callWithName(callback) {
   return callback("Ashish");
 }
-console.log(callWithName(greet)); 
+console.log(callWithName(greet));
 // Output: "Hello, Ashish"
 // callWithName() is a higher-order function because it takes another function (greet) as input.
 // Example 2 — Returns a new function
 function multiplier(factor) {
-  return function(num) {
+  return function (num) {
     return num * factor;
   };
 }
@@ -362,8 +368,369 @@ console.log(double(5)); // 10
 // --------------------------------------------------------------------------------------
 
 // ----- Functions are Objects ----------------------------------------------------------
-// Functions have built-in properties :- 
+// Functions have built-in properties :-
 function demo(a, b) {}
-console.log(demo.name);   // "demo"
+console.log(demo.name); // "demo"
 console.log(demo.length); // 2 (parameter count)
 // --------------------------------------------------------------------------------------
+
+// ----- Factory Function ---------------------------------------------------------------
+/*
+  - A Factory Function is a regular function that returns a new object every time it’s called.
+  - A factory function is a regular function that:
+    - Returns a new object every time it’s called.
+    - Does not use the new keyword.
+    - Does not rely on this.
+    - Can create private data using closures.
+*/
+// Ex :- 1.
+function createUser(name, age) {
+  return {
+    name,
+    age,
+    greet() {
+      console.log(`Hi, I'm ${this.name}, ${this.age} years old.`);
+    },
+  };
+}
+
+const user11 = createUser("Ashish", 25);
+const user12 = createUser("John", 30);
+
+user11.greet(); // Hi, I'm Ashish, 25 years old.
+user12.greet(); // Hi, I'm John, 30 years old.
+
+// Ex :- 2.
+function createCounter() {
+  let count = 0; // private variable
+  return {
+    increment() {
+      count++;
+      console.log(count);
+    },
+    decrement() {
+      count--;
+      console.log(count);
+    },
+    getCount() {
+      return count;
+    },
+  };
+}
+
+const counter = createCounter();
+counter.increment(); // 1
+counter.increment(); // 2
+console.log(counter.count); // undefined
+// --------------------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------------------------------------------
+/*
+| Type                     | Syntax                           | Hoisted | `this`        | Use Case                 |
+| ------------------------ | -------------------------------- | ------- | ------------- | ------------------------ |
+| **Function Declaration** | `function name(){}`              |  Yes    | Dynamic       | Reusable named functions |
+| **Function Expression**  | `const f = function(){}`         |  No     | Dynamic       | Callbacks, closures      |
+| **Arrow Function**       | `const f = () => {}`             |  No     | Lexical       | Short callbacks          |
+| **Anonymous Function**   | `function(){}`                   |  No     | Dynamic       | Inline logic             |
+| **IIFE**                 | `(function(){})()`               |  No     | Private scope | Init/setup code          |
+| **Constructor Function** | `function Name(){ this... }`     |  No     | `new` binding | Object creation          |
+| **Generator**            | `function*(){}`                  |  No     | Dynamic       | Lazy iteration           |
+| **Async Function**       | `async function(){}`             |  No     | Dynamic       | Promise-based async code |
+| **Callback**             | Passed to another                |  No     | Varies        | Event handling, async    |
+| **Higher-Order**         | Function taking/returning fn     |  No     | Varies        | Abstraction              |
+| **Recursive**            | Calls itself                     | ✅/❌  | Varies        | Repetitive tasks         |
+| **Nested**               | Function inside function         |  No     | Closure       | Scoped helpers           |
+| **Pure Function**        | No side effects                  |  Yes    | Deterministic | Predictable results      |
+*/
+// ----------------------------------------------------------------------------------------------------------------
+/*
+Types of Functions in JavaScript
+🧩 1. Function Declaration
+🔹 Definition
+
+A function declaration defines a named function using the function keyword.
+
+function greet() {
+  console.log("Hello!");
+}
+greet(); // "Hello!"
+
+🔹 Characteristics
+
+Must have a name.
+
+Hoisted → can be called before definition.
+
+Good for reusable named functions.
+
+🔹 Example (Hoisting):
+sayHi(); // Works
+function sayHi() {
+  console.log("Hi!");
+}
+
+🧩 2. Function Expression
+🔹 Definition
+
+A function expression defines a function inside an expression, optionally assigning it to a variable.
+
+const greet = function() {
+  console.log("Hello from expression!");
+};
+greet();
+
+🔹 Characteristics
+
+Can be anonymous or named.
+
+Not hoisted (unlike declarations).
+
+Used for callbacks or closures.
+
+🔹 Example (Named Expression)
+const factorial = function fact(n) {
+  return n <= 1 ? 1 : n * fact(n - 1);
+};
+
+🧩 3. Arrow Function (ES6)
+🔹 Definition
+
+A shorter syntax for writing function expressions.
+
+const add = (a, b) => a + b;
+console.log(add(2, 3)); // 5
+
+🔹 Characteristics
+
+Compact syntax.
+
+Lexical this → inherits this from parent scope.
+
+Cannot be used as a constructor.
+
+No arguments object or prototype.
+
+🔹 Example
+const double = x => x * 2;
+[1, 2, 3].map(x => x * 2);
+
+🧩 4. Anonymous Function
+🔹 Definition
+
+A function without a name.
+
+Usually used as callbacks or inside expressions.
+
+setTimeout(function() {
+  console.log("Anonymous function executed!");
+}, 1000);
+
+🔹 Characteristics
+
+Doesn’t have a name.
+
+Not reusable by name.
+
+Often used in short, one-time operations.
+
+🧩 5. Named Function Expression
+🔹 Definition
+
+A function expression with a name (useful for recursion or debugging).
+
+const factorial = function fact(n) {
+  return n <= 1 ? 1 : n * fact(n - 1);
+};
+
+
+✅ fact is available only inside the function — not outside.
+
+🧩 6. Immediately Invoked Function Expression (IIFE)
+🔹 Definition
+
+A function that runs immediately after being defined.
+
+(function() {
+  console.log("IIFE executed!");
+})();
+
+🔹 Characteristics
+
+Executes instantly.
+
+Creates a private scope.
+
+Used for initialization or encapsulation.
+
+🧩 7. Constructor Function
+🔹 Definition
+
+A function designed to be called with the new keyword — used to create objects.
+
+function Person(name) {
+  this.name = name;
+}
+const p1 = new Person("Ashish");
+console.log(p1.name); // "Ashish"
+
+🔹 Characteristics
+
+Uses this to assign properties.
+
+Called with new.
+
+Prototype-based inheritance.
+
+Acts as a class blueprint (pre-ES6 classes).
+
+🧩 8. Generator Function
+🔹 Definition
+
+A special function that can pause and resume its execution using yield.
+
+function* counter() {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+
+const gen = counter();
+console.log(gen.next().value); // 1
+console.log(gen.next().value); // 2
+
+🔹 Characteristics
+
+Declared with function*.
+
+Returns an iterator object.
+
+Useful for lazy evaluation, async flows, or infinite sequences.
+
+🧩 9. Async Function (ES8)
+🔹 Definition
+
+An asynchronous function that always returns a Promise.
+
+async function fetchData() {
+  const response = await fetch("/data");
+  return response.json();
+}
+
+🔹 Characteristics
+
+Use async keyword.
+
+await pauses execution until a promise resolves.
+
+Cleaner syntax for asynchronous code.
+
+🧩 10. Callback Function
+🔹 Definition
+
+A function passed as an argument to another function and executed later.
+
+function processUserInput(callback) {
+  const name = "Ashish";
+  callback(name);
+}
+processUserInput(function(name) {
+  console.log("Hello, " + name);
+});
+
+🔹 Characteristics
+
+Passed as parameter.
+
+Executed later (synchronously or asynchronously).
+
+Core to async operations (e.g., setTimeout, event listeners).
+
+🧩 11. Higher-Order Function
+🔹 Definition
+
+A function that takes another function as argument or returns another function.
+
+function repeat(fn, times) {
+  for (let i = 0; i < times; i++) fn();
+}
+
+repeat(() => console.log("Hi!"), 3);
+
+
+✅ repeat is higher-order — takes a function as input.
+
+🧩 12. Recursive Function
+🔹 Definition
+
+A function that calls itself to solve smaller subproblems.
+
+function factorial(n) {
+  if (n <= 1) return 1;
+  return n * factorial(n - 1);
+}
+console.log(factorial(5)); // 120
+
+🔹 Characteristics
+
+Must have a base condition to stop recursion.
+
+Used for problems like factorial, Fibonacci, tree traversal, etc.
+
+🧩 13. Nested Function (Inner Function)
+🔹 Definition
+
+A function defined inside another function.
+
+function outer() {
+  function inner() {
+    console.log("Inner function");
+  }
+  inner();
+}
+outer();
+
+
+✅ Inner functions can access outer function variables → closure.
+
+🧩 14. Pure Function
+🔹 Definition
+
+A function that:
+
+Always returns the same output for the same input.
+
+Has no side effects.
+
+function add(a, b) {
+  return a + b; // ✅ Pure
+}
+
+
+✅ Predictable, testable, reusable → foundation of functional programming.
+
+🧩 15. Impure Function
+🔹 Definition
+
+A function that changes external state or depends on it.
+
+let count = 0;
+function increment() {
+  count++; // ❌ modifies external variable
+  return count;
+}
+
+
+⚠️ Not predictable → result depends on external changes.
+
+🧩 16. Arrow + Async (Hybrid Example)
+
+You can combine types:
+
+const fetchUser = async () => {
+  const res = await fetch("/user");
+  return res.json();
+};
+
+
+✅ Async + Arrow + Anonymous all in one.
+*/
