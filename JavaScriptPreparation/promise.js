@@ -26,7 +26,11 @@ promise
 */
 // --------------------------------------------------------
 
-// ----- .then(), .catch(), .finally() --------------------
+// ----- Promise instance methods (or Promise chaining methods) -
+/*
+  - .then(), .catch(), .finally()
+  - They are called Promise instance methods (or Promise chaining methods) because they belong to a specific promise object and are used to handle its outcome.
+*/
 /*
   |-----------------------------------------------------------|
   | Method               | Purpose                            |
@@ -96,6 +100,36 @@ Cleanup
 /*
   - Takes an array of promises and waits for all of them to resolve.
   - If any promise fails, it rejects immediately.
+  - Internally (How JS handles it) :- 
+    - Starts all promises simultaneously.
+    - Keeps a counter of how many promises are not yet fulfilled.
+    - If any promise rejects → immediately reject.
+    - When all are fulfilled → resolve with values array.
+  - Points to Remember :- 
+    - Order of results is preserved.
+      - Even if a promise resolves later, result index stays the same.
+      - Promise.all([slow(), fast()]);
+      - → result[0] = slow result  
+      - → result[1] = fast result
+    - Non-promise values are auto-wrapped
+      - Promise.all([1, Promise.resolve(2)]).then(console.log);
+      - [1, 2]
+    - Empty array
+      - Promise.all([]).then(console.log);
+      - []
+    - Short-circuiting on rejection
+      - As soon as one rejects → the entire combinator rejects.
+      - But note :- Other promises do not stop running — they just become ignored.
+  - Why Use Promise.all() :- 
+    - Parallel asynchronous tasks
+      - Download data, read files, fetch APIs simultaneously.
+    - Wait for everything before moving forward
+    - Useful for:
+      - loading UI data
+      - initializing multiple modules
+      - running independent async tasks
+    - Ensures consistency
+      - If one part fails → fail the whole operation.
 */
 // Ex 1 :-
 const p1 = Promise.resolve("Task 1 Done");
@@ -119,11 +153,46 @@ Promise.all([
   Promise.resolve("C"),
 ]).then((result) => console.log(result));
 // ["A", "B", "C"]
+
+Promise.all([
+  Promise.resolve("A"),
+  Promise.reject("D"),
+  Promise.resolve("B"),
+  Promise.resolve("C"),
+])
+  .then((result) => console.log(result))
+  .catch(() => console.log("Error"));
+/*
+  - Step-by-Step Breakdown :- 
+  - 1. "A" resolves immediately
+    - Promise.resolve("A") settles instantly.
+  - 2. "D" rejects immediately
+    - Promise.reject("D") settles instantly and negatively.
+  - 3. Promise.all immediately rejects
+    - Because Promise.all fails fast.
+  - As soon as any one promise rejects,
+    -→ The entire Promise.all rejects immediately.
+    - The .catch() runs → Output: "Error"
+  - 4. "B" and "C" are still running
+    - These promises are still executed because JavaScript cannot "cancel" native promises.
+    - But their results are ignored because Promise.all is already rejected.
+*/
 // --------------------------------------------------------
 
 // ----- Promise.allSettled([...]) ------------------------
-// Similar to Promise.all(), but waits for all promises to complete, whether they resolve or reject.
-// Waits for all promises to finish (no matter success or failure).
+/*
+  - Similar to Promise.all(), but waits for all promises to complete, whether they resolve or reject.
+  - Waits for all promises to finish (no matter success or failure).\
+  - When to Use Promise.allSettled() :- 
+    - When you want to wait for everything
+      - (e.g., loading multiple independent resources)
+    - When failure should not stop other tasks
+      - (e.g., show partial results even if some fail)
+    - When you need a summary of outcomes
+      - (success + failure details)
+    - When you don’t want fail-fast behavior
+      - (Promise.all stops on the first rejection)
+*/
 // Ex 1 :-
 Promise.allSettled([Promise.resolve("Success"), Promise.reject("Fail")]).then(
   console.log
@@ -152,7 +221,7 @@ Promise.allSettled([p11, p21, p31]).then((results) => console.log(results));
 */
 // --------------------------------------------------------
 
-// ----- Promise.race() -----------------------------------
+// ----- Promise.race([...]) -----------------------------------
 /*
   - Returns the result of the first settled promise (resolved or rejected).
   - Think of a race between multiple promises :-
@@ -207,6 +276,24 @@ Promise.any([
   Promise.resolve("Win!"),
   Promise.reject("Fail 2"),
 ]).then(console.log); // "Win!"
+
+Promise.any([
+  Promise.reject("A"),
+  Promise.resolve("B"),
+  Promise.reject("C"),
+  Promise.resolve("D"),
+])
+  .then((result) => console.log(result))
+  .catch(() => console.log("Error"));
+/*
+  - A is rejected → ignored
+  - B is resolved → Promise.any() resolves with "B"
+  - Promise.any() finishes here
+  - C still runs and rejects → ignored
+  - D still runs and resolves → ignored
+  - Output is "B"
+  - 👉 Yes, D is still running but ignored due to B resolving first.
+*/
 // --------------------------------------------------------
 // ----- Difference: Promise.race() vs Promise.any() vs Promise.all() vs Promise.allSettled()
 /*
@@ -219,6 +306,31 @@ Promise.any([
   | **`Promise.race`**       | First *settled* (resolved or rejected) promise | First rejection     | Remaining ones|
   |-----------------------------------------------------------------------------------------------------------------|
 */
+// --------------------------------------------------------
+
+// --------------------------------------------------------
+/*
+  --- Promise.all([...]), Promise.race([...]) and Promise.any([...]), after these cases are fulfilled, do the remaining promises that are still running will cause any problems in the code
+    - Yes — the remaining promises keep running, and that can cause problems depending on what those promises do. They won’t change the already-settled combinator result, but they can create side effects, waste resources, or produce unhandled rejections.
+  - Problems the still-running promises can cause :- 
+    - Side effects will still happen -
+      - If those promises perform work (DB writes, UI updates, logging, file writes, network calls), those side effects still occur even though the combinator result is decided.
+    - Resource consumption / wasted work -
+      - Long-running tasks (large downloads, CPU work) continue and waste CPU, memory, network — affecting performance.
+    - Unhandled rejections / noisy logs -
+      - If a background promise rejects and no rejection handler exists, some runtimes will emit unhandled rejection warnings or even terminate the process (Node can be configured to do so). Even if the combinator already settled, each individual promise should still handle its own errors or be safely ignored.
+    - Race conditions / inconsistent state -
+      - If other code assumes once the combinator settles everything is done, but background promises later mutate shared data, you can get inconsistent state.
+-----------------------------------------------------------
+  - How to avoid or mitigate problems :- 
+    - Prefer cancellable operations (use AbortController for fetch / XHR / many web APIs)
+      - AbortController lets you stop in-flight network requests so they don't keep running.
+    - Attach explicit handlers to avoid unhandled rejections
+      - If you won't process a promise result, attach a .catch() (or a no-op handler) to prevent runtime warnings:
+    - Use a cooperative cancellation wrapper / flag
+      - For in-process tasks you control, check a cancelled flag inside the work and stop early:
+*/
+
 // --------------------------------------------------------
 
 // ----- Summary ------------------------------------------
